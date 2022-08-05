@@ -14,6 +14,8 @@ const authController = require("../controllers/authenticationController");
 const authLoginValidation = require("../validations/auth/login");
 const auth = require("../middlewares/auth");
 
+const dashboardController = require("../controllers/dashboardController");
+
 const routes = express.Router();
 
 // ROUTE FOR LOGIN
@@ -49,5 +51,21 @@ routes.delete("/pacientes/:id", patientsController.delete);
 routes.get("/atendimentos", attendancesController.showAll);
 routes.get("/atendimentos/:id", attendancesController.showById);
 routes.post("/atendimentos", auth, attendancesController.insert);
+
+// ROUTES FOR DASHBOARDS
+routes.get("/dashboard/numero-pacientes", dashboardController.patientsNumber);
+routes.get(
+	"/dashboard/numero-psicologos",
+	dashboardController.therapistsNumber
+);
+routes.get(
+	"/dashboard/numero-atendimentos",
+	dashboardController.attendancesNumber
+);
+routes.get(
+	"/dashboard/numero-media-atendimentos",
+	auth,
+	dashboardController.meanAttendancesPerTherapist
+);
 
 module.exports = routes;
