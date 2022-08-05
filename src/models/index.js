@@ -2,13 +2,13 @@ const Patients = require("./Patients");
 const Therapists = require("./Therapists");
 const Attendances = require("./Attendances");
 
-Patients.hasMany(Therapists, {
-	foreignKey: "atendimentos_ibfk_1",
+Patients.belongsToMany(Therapists, {
+	foreignKey: "paciente_id",
 	through: Attendances,
 });
 
-Therapists.hasMany(Patients, {
-	foreignKey: "atendimentos_ibfk_2",
+Therapists.belongsToMany(Patients, {
+	foreignKey: "psicologo_id",
 	through: Attendances,
 });
 

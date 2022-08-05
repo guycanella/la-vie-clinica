@@ -1,25 +1,24 @@
-const Patients = require('../models')
-const bcrypt = require('bcryptjs')
+const { Patients } = require("../models");
 
 const patientsController = {
-	showAll: (_req, res) => {
-		const patientsList = await Patients.findAll()
+	showAll: async (_req, res) => {
+		const patientsList = await Patients.findAll();
 
-		res.status(200).json(patientsList)
+		res.status(200).json(patientsList);
 	},
 
 	showById: async (req, res) => {
-		const { id } = req.params
+		const { id } = req.params;
 
 		const patient = await Patients.findOne({
 			where: {
 				id,
-			}
-		})
+			},
+		});
 
 		if (patient === null) {
-			res.status(404).json("Id não encontrado.")
-			return
+			res.status(404).json("Id não encontrado.");
+			return;
 		}
 
 		res.status(200).json({
@@ -28,62 +27,62 @@ const patientsController = {
 			email: patient.email,
 			apresentacao: patient.apresentacao,
 			createdAt: patient.createdAt,
-			updatedAt: patient.updatedAt
-		})
+			updatedAt: patient.updatedAt,
+		});
 	},
 
-	insert: (req, res) => {
-		const { nome, email, idade } = req.body
+	insert: async (req, res) => {
+		const { nome, email, idade } = req.body;
 
 		const newPatient = await Patients.create({
 			nome,
 			email,
-			idade
-		})
+			idade,
+		});
 
-		res.status(201).json(newPatient)
+		res.status(201).json(newPatient);
 	},
 
 	update: async (req, res) => {
-		const { id } = req.params
-		const { nome, email, idade } = req.body
+		const { id } = req.params;
+		const { nome, email, idade } = req.body;
 
 		const obj = {
 			nome,
 			email,
-			idade
-		}
+			idade,
+		};
 
 		await Patients.update(obj, {
 			where: {
-				id
-			}
-		})
+				id,
+			},
+		});
 
-		res.status(200).json(obj)
+		res.status(200).json(obj);
 	},
 
-	delete: (req, res) => {
-		const { id } = req.params
+	delete: async (req, res) => {
+		const { id } = req.params;
 
 		const patient = await Patients.findOne({
 			where: {
 				id,
-			}
-		})
+			},
+		});
 
 		if (!patient) {
-			res.status(404).json("Id não encontrado.")
-			return
+			res.status(404).json("Id não encontrado.");
+			return;
 		}
 
 		await Patients.destroy({
 			where: {
-				id
-			}
-		})
+				id,
+			},
+		});
 
-		res.status(204).json(patient)
+		res.status(204).json(patient);
 	},
 };
 

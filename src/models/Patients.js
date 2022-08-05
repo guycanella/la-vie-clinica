@@ -21,7 +21,7 @@ const Patients = db.define(
 			unique: true,
 		},
 		idade: {
-			type: DataTypes.DATE,
+			type: DataTypes.DATEONLY,
 			allowNull: false,
 		},
 		createdAt: {
